@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,57 +34,39 @@
     ></script>
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- google font -->
+    <!-- fontawesome -->
     <link
-      href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:100,300,400,500,700,900&amp;subset=chinese-traditional"
       rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
     />
-
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        background-color: #ccc;
-        font-family: 'Noto Sans TC', sans-serif;
-      }
-      #app {
-        width: 640px;
-        margin: 50px auto;
-      }
-      #app h3 {
-        padding: 10px;
-        font-size: 18px;
-      }
-      .question {
-        border: 1px solid blueviolet;
-        border-radius: 5px;
-        padding: 15px;
-        font-size: 18px;
-      }
-    </style>
+    <!-- custom css -->
+    <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
     <div id="app">
       <div class="question">
         <p>問題 1：使用何種酸鹼溶液？</p>
-        <select v-model="input.option">
-          <option>請選擇</option>
-          <option>鹽酸</option>
+        <select v-model="selectedKa">
+          <option disabled>請選擇</option>
+          <option v-for="(acid,index) in acids" :value="acid.ka">{{
+            acid.title
+          }}</option>
         </select>
+        <p>Ka: {{ selectedKa }}</p>
       </div>
       <div class="question">
         <p>問題 2：此溶液的莫爾濃度為何(M)？</p>
-        <input type="text" v-model="input.value" />
+        <input type="text" v-model="inputValue" />
         <hr />
         <p>
           公式： \(pH = - \log_{10}[H^+] \)
           <!-- $ = - \log_{10}[H^+] = - \log_{10}[ A ]$$ -->
         </p>
         <p>
-          此溶液的 \(pH\)值: <span>{{ answer }}</span>
+          <!-- 此溶液的 \(pH\)值: <span>{{ answer }}</span> -->
         </p>
       </div>
     </div>
