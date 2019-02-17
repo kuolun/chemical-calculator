@@ -75,9 +75,14 @@ var app = new Vue({
         }
         let pH1 = -Math.log10(finalX).toFixed(2);
         if (pH1 > 7) {
-          pH1 = 7
+          pH1 = 7;
+        }
+        // pH值若小於1，則設定pH值為1
+        if (pH1 < 1) {
+          pH1 = 1;
         }
         return pH1;
+
       } else {
         this.BlessthanC5 = true;
         console.log('in pH2');
@@ -85,6 +90,11 @@ var app = new Vue({
         if (pH2 > 7) {
           pH2 = 7
         }
+        // pH值若小於1，則設定pH值為1
+        if (pH2 < 1) {
+          pH2 = 1;
+        }
+
         return pH2;
       }
     }
