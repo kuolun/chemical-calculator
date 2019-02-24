@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>化學計算</title>
+  <title>化學計算-case2</title>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -25,53 +25,36 @@
   <!-- fontawesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
-  <!-- 共用css -->
-  <link rel="stylesheet" href="../style.css">
-  <!-- custom css -->
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- 共用 css -->
+  <link rel="stylesheet" href="../style.css" />
+  <!-- 自用  css -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div id="app">
+    <h1>Case2</h1>
     <div class="question">
-      <p>問題 1：使用何種酸鹼溶液？</p>
-      <select v-model="selectedKa">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae ipsum sit in, maiores doloremque fugiat
+        laboriosam asperiores deleniti similique dolor minus nesciunt rem quidem aut cupiditate optio nostrum maxime
+        esse!</p>
+      <p>1.輸入所有的酸多質子形態變化及Ka1,Ka2,Ka3</p>
+      <select v-model="selectedAcid">
         <option disabled>請選擇</option>
-        <option v-for="(acid,index) in acids" :value="acid.ka">{{
+        <option v-for="(acid,index) in acids" :value="acid">{{
             acid.title
           }}</option>
       </select>
-      <p>Ka: {{ selectedKa }}</p>
+      <p>ka1: {{ selectedAcid.ka1 }}</p>
+      <p>ka2: {{ selectedAcid.ka2 }}</p>
+      <p>ka3: {{ selectedAcid.ka3 }}</p>
+      <p>2.輸入想要的pH值(1~14之間) <input type="number" min="1" max="14"> </p>
+      <p>3.選擇想要的緩衝鹽系統 </p>
     </div>
-    <div class="question">
-      <p>問題 2：此溶液的莫爾濃度為何(M)？</p>
-      <input type="text" v-model="inputValue" />
-      <hr />
-      <p>
-        公式： \(pH = - \log_{10}[H^+] \)
-        <!-- $ = - \log_{10}[H^+] = - \log_{10}[ A ]$$ -->
-      </p>
-      <p>
-        <!-- 此溶液的 \(pH\)值: <span>{{ answer }}</span> -->
-      </p>
-      <p>
-        A:(Ka){{selectedKa}}
-        <br>
-        B:(C乘A開根號){{answer1}}
-        <br>
-        C:(輸入濃度){{inputValue}}
-        <br>
-        C乘5%:{{inputValue * 0.05}}
-      </p>
-
-      <p v-if="!BlessthanC5">
-        B>C*5% 則解出為pH : {{answer2}}
-      </p>
-      <p v-else>
-        B<=C*5% 則解出為pH : {{answer2}} </p> </div> <a href="../index.html">回首頁</a>
-    </div>
-    <script src="app.js">
-    </script>
+    <a href="../index.html">回首頁</a>
+  </div>
+  <script src="app.js">
+  </script>
 </body>
 
 </html>
