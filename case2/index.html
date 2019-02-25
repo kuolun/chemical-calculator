@@ -35,10 +35,8 @@
   <div id="app">
     <h1>Case2</h1>
     <div class="question">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae ipsum sit in, maiores doloremque fugiat
-        laboriosam asperiores deleniti similique dolor minus nesciunt rem quidem aut cupiditate optio nostrum maxime
-        esse!</p>
-      <p>1.輸入所有的酸多質子形態變化及Ka1,Ka2,Ka3</p>
+      <p>使用情境說明文字：</p>
+      <p>1.選擇一種酸多質子</p>
       <select v-model="selectedAcid">
         <option disabled>請選擇</option>
         <option v-for="(acid,index) in acids" :value="acid">{{
@@ -48,8 +46,14 @@
       <p>ka1: {{ selectedAcid.ka1 }}</p>
       <p>ka2: {{ selectedAcid.ka2 }}</p>
       <p>ka3: {{ selectedAcid.ka3 }}</p>
-      <p>2.輸入想要的pH值(1~14之間) <input type="number" min="1" max="14"> </p>
-      <p>3.選擇想要的緩衝鹽系統 </p>
+      <p>2.輸入想要的pH值(1~14之間) <input type="number" min="1" max="14" v-model="ph_value"> </p>
+      <p>abs(ph-ka1):{{result1}}</p>
+      <p>abs(ph-ka2):{{result2}}</p>
+      <p>abs(ph-ka3):{{result3}}</p>
+      <p>
+        使用緩衝鹽：{{ka_text}}<br>
+        調配比例:{{cal2}}
+      </p>
     </div>
     <a href="../index.html">回首頁</a>
   </div>

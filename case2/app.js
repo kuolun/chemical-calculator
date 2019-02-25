@@ -3,19 +3,26 @@ let data = {
   acids: [
     {
       title: 'sulfuric acid',
-      ka1: '[HSO4-]/ [H2SO4]',
-      ka2: '[SO42-]/ [HSO4-]'
+      ka1: 1000,
+      ka2: 0.011,
+      ka1_text: '[HSO4-]/ [H2SO4]',
+      ka2_text: '[SO42-]/ [HSO4-]'
     },
     {
       title: 'Sulfurous acid',
-      ka1: '[HSO3-]/ [H2SO3]',
-      ka2: '[SO32-]/ [HSO3-]'
+      ka1: 0.013,
+      ka2: 0.000000062,
+      ka1_text: '[HSO3-]/ [H2SO3]',
+      ka2_text: '[SO32-]/ [HSO3-]'
     },
     {
       title: 'Phosphoric acid',
-      ka1: '[H2PO4-] / [H3PO4]',
-      ka2: '[HPO42-]/ [H2PO4-]',
-      ka3: '[PO43-]/ [HPO42-]'
+      ka1: 0.0071,
+      ka2: 0.000000063,
+      ka3: 0.00000000000042,
+      ka1_text: '[H2PO4-] / [H3PO4]',
+      ka2_text: '[HPO42-]/ [H2PO4-]',
+      ka3_text: '[PO43-]/ [HPO42-]'
     },
     {
       title: 'Carbonic acid',
@@ -42,56 +49,52 @@ let data = {
     }
   ],
   selectedAcid: '',
+  ph_value: 1,
   productSq: 0,
-  BlessthanC5: false
+  abs: 0,
+  ka_text: '',
+  // test
+  result1: 0,
+  result2: 0,
+  result3: 0
 }
 
 var app = new Vue({
   el: '#app',
   data: data,
   computed: {
-    answer1() {
-      console.log('answer1');
-      // return -Math.log10(this.input.value).toFixed(2)
-      this.productSq = Math.sqrt(this.inputValue * this.selectedKa);
-      return this.productSq;
-    },
-    answer2() {
-      if (this.productSq > this.inputValue * 0.05) {
-        this.BlessthanC5 = false;
-        let x1 = (-this.selectedKa + Math.sqrt(Math.pow(this.selectedKa, 2) + 4 * this.selectedKa * this.inputValue)) / 2;
-        let x2 = (-this.selectedKa - Math.sqrt(Math.pow(this.selectedKa, 2) + 4 * this.selectedKa * this.inputValue)) / 2;
-        console.log(x1, x2);
-        let finxalX;
-        if (x1 > 0) {
-          finalX = x1
+    cal1() {
+      let selected = this.selectedAcid;
+      let ka1 = selected.ka1;
+      let ka2 = selected.ka2;
+      let ka3 = selected.ka3;
+      let ph_value = this.ph_value;
+      console.log('cal1');
+      if (selected) {
+        let result1 = Math.abs(ka1 - ph_value);
+        let result2 = Math.abs(ka2 - ph_value);
+        let result3 = Math.abs(ka3 - ph_value);
+        // for test
+        this.result1 = result1;
+        this.result2 = result2;
+        this.result3 = result3;
+
+        console.log(result1, result2, result3);
+        if (result1 > result2) {
+          this.abs = result2;
+          this.ka_text = selected.ka2_text;
+          return result2;
         } else {
-          finalX = x2
+          this.abs = result1;
+          this.ka_text = selected.ka1_text;
+          return result1;
         }
-        let pH1 = -Math.log10(finalX).toFixed(2);
-        if (pH1 > 7) {
-          pH1 = 7;
-        }
-        // pH值若小於1，則設定pH值為1
-        if (pH1 < 1) {
-          pH1 = 1;
-        }
-        return pH1;
-
-      } else {
-        this.BlessthanC5 = true;
-        console.log('in pH2');
-        let pH2 = -Math.log10(this.productSq);
-        if (pH2 > 7) {
-          pH2 = 7
-        }
-        // pH值若小於1，則設定pH值為1
-        if (pH2 < 1) {
-          pH2 = 1;
-        }
-
-        return pH2;
       }
-    }
+    },
+    cal2() {
+      if (this.abs) {
+        return Math.pow(10, this.abs).toFixed(2);
+      }
+    },
   }
 })
