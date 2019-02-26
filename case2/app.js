@@ -45,7 +45,7 @@ let data = {
       ka2: "[C3H2O42-]/ [HC3H2O4-]"
     }
   ],
-  selectedAcid: "",
+  selectedAcid: {},
   ph_value: 1,
   productSq: 0,
   abs: 0,
@@ -62,17 +62,16 @@ var app = new Vue({
   computed: {
     cal1() {
       let selected = this.selectedAcid;
-      let ka1 = selected.ka1;
-      let ka2 = selected.ka2;
-      let ka3 = selected.ka3;
+      let { ka1, ka2, ka3, ka1_text, ka2_text, ka3_text = "" } = selected;
       let ph_value = this.ph_value;
+
       console.log("cal1");
 
       // 選定酸之後做絕對值的比較
       if (selected) {
-        let result1 = Math.abs(ka1 - ph_value);
-        let result2 = Math.abs(ka2 - ph_value);
-        let result3 = Math.abs(ka3 - ph_value);
+        let result1 = Math.abs(ph_value - Math.log10(ka1));
+        let result2 = Math.abs(ph_value - Math.log10(ka2));
+        let result3 = Math.abs(ph_value - Math.log10(ka3));
         // for test
         this.result1 = result1;
         this.result2 = result2;
@@ -82,30 +81,36 @@ var app = new Vue({
 
         if (ka3) {
           // 如果有3個ka
+          console.log("比較3個");
           let min;
           if (result1 > result2) {
             min = result2;
-            this.ka_text = selected.ka2_text;
+            this.ka_text = ka2_text;
           } else {
+            console.log(`預期:${result1}`);
             min = result1;
-            this.ka_text = selected.ka1_text;
+            this.ka_text = ka1_text;
           }
 
-          if (ka3 < min) {
-            min = ka3;
-            this.ka_text = selected.ka3_text;
+          if (result3 < min) {
+            min = result3;
+            this.ka_text = ka3_text;
           }
+
+          console.log(`cal1 min abs:${min}`);
+          console.log(`緩衝嚴:${this.ka_text}`);
           this.abs = min;
           return this.ka_text;
         } else {
           // 只有ka1及ka2
+          console.log("比較2個");
           if (result1 > result2) {
             this.abs = result2;
-            this.ka_text = selected.ka2_text;
+            this.ka_text = ka2_text;
             return this.ka_text;
           } else {
             this.abs = result1;
-            this.ka_text = selected.ka1_text;
+            this.ka_text = ka1_text;
             return this.ka_text;
           }
         }
@@ -113,6 +118,7 @@ var app = new Vue({
     },
     cal2() {
       if (this.abs) {
+        console.log(`min abs:${this.abs}`);
         return Math.pow(10, this.abs).toFixed(2);
       }
     }
