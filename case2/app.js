@@ -1,5 +1,4 @@
 let data = {
-  inputValue: 1,
   acids: [
     {
       title: "sulfuric acid",
@@ -26,31 +25,37 @@ let data = {
     },
     {
       title: "Carbonic acid",
-      ka1: "[H2CO3]/ [H2CO3]",
-      ka2: "[H2CO3]/ [H2CO3]"
+      ka1: 0.00000044,
+      ka2: 0.000000000047,
+      ka1_text: "[H2CO3]/ [H2CO3]",
+      ka2_text: "[H2CO3]/ [H2CO3]"
     },
     {
       title: "Hydrogen sulfide",
-      ka1: "[HS-]/ [H2S]",
-      ka2: "[S2-]/ [HS-]"
+      ka1: 0.0000001,
+      ka2: 0.0000000000000000001,
+      ka1_text: "[HS-]/ [H2S]",
+      ka2_text: "[S2-]/ [HS-]"
     },
     {
       title: "Oxalic acid",
-      ka1: "[HC2O4-]/[H2C2O4]",
-      ka2: "[HC2O42-]/[HC2O4-]"
+      ka1: 0.054,
+      ka2: 0.000053,
+      ka1_text: "[HC2O4-]/[H2C2O4]",
+      ka2_text: "[HC2O42-]/[HC2O4-]"
     },
     {
       title: "Malonic acid",
-      ka1: "[HC3H2O4-]/ [H2C3H2O4]",
-      ka2: "[C3H2O42-]/ [HC3H2O4-]"
+      ka1: 0.0015,
+      ka2: 0.000002,
+      ka1_text: "[HC3H2O4-]/ [H2C3H2O4]",
+      ka2_text: "[C3H2O42-]/ [HC3H2O4-]"
     }
   ],
   selectedAcid: {},
-  ph_value: 1,
-  productSq: 0,
+  ph_value: 7, //user輸入進來的值會是string
   abs: 0,
   ka_text: "",
-  // test
   result1: 0,
   result2: 0,
   result3: 0
@@ -62,16 +67,31 @@ var app = new Vue({
   computed: {
     cal1() {
       let selected = this.selectedAcid;
+      console.log(selected);
       let { ka1, ka2, ka3, ka1_text, ka2_text, ka3_text = "" } = selected;
-      let ph_value = this.ph_value;
+      //輸入欄位的數字是string要轉整數
+      let ph_value = parseInt(this.ph_value);
+      let logka1 = Math.log10(ka1);
+      let logka2 = Math.log10(ka2);
+      let logka3 = Math.log10(ka3);
+      let logkas = [logka1, logka2, logka3];
+      // 調整過大或過小的數字(>14或<1)
+      for (let i = 0; i < logkas.length; i++) {
+        if (logkas < 1) {
+          logkas = 1;
+        }
+        if (logkas > 14) {
+          lokas = 14;
+        }
+      }
 
       console.log("cal1");
 
       // 選定酸之後做絕對值的比較
       if (selected) {
-        let result1 = Math.abs(ph_value - Math.log10(ka1));
-        let result2 = Math.abs(ph_value - Math.log10(ka2));
-        let result3 = Math.abs(ph_value - Math.log10(ka3));
+        let result1 = Math.abs(logka1 + ph_value);
+        let result2 = Math.abs(logka2 + ph_value);
+        let result3 = Math.abs(logka3 + ph_value);
         // for test
         this.result1 = result1;
         this.result2 = result2;
@@ -117,10 +137,10 @@ var app = new Vue({
       }
     },
     cal2() {
-      if (this.abs) {
-        console.log(`min abs:${this.abs}`);
-        return Math.pow(10, this.abs).toFixed(2);
-      }
+      console.log(`cal2:this.abs-${this.abs}`);
+      console.log(`min abs:${this.abs}`);
+      // Math.pow(base,exponent)
+      return Math.pow(10, this.abs).toFixed(2);
     }
   }
 });
