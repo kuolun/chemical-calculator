@@ -54,8 +54,8 @@ let data = {
   ],
   selectedAcid: {},
   ph_value: 7, //user輸入進來的值會是string
-  abs: 0,
-  ka_text: "",
+  abs: 0, //絕對值計算
+  ka_text: "", //緩衝鹽文字
   result1: 0,
   result2: 0,
   result3: 0
@@ -67,28 +67,34 @@ var app = new Vue({
   computed: {
     cal1() {
       let selected = this.selectedAcid;
-      console.log(selected);
-      let { ka1, ka2, ka3, ka1_text, ka2_text, ka3_text = "" } = selected;
-      //輸入欄位的數字是string要轉整數
-      let ph_value = parseInt(this.ph_value);
-      let logka1 = Math.log10(ka1);
-      let logka2 = Math.log10(ka2);
-      let logka3 = Math.log10(ka3);
-      let logkas = [logka1, logka2, logka3];
-      // 調整過大或過小的數字(>14或<1)
-      for (let i = 0; i < logkas.length; i++) {
-        if (logkas < 1) {
-          logkas = 1;
-        }
-        if (logkas > 14) {
-          lokas = 14;
-        }
-      }
+      console.log(_.isEmpty(selected));
+      console.log(`選擇：${selected}`);
 
       console.log("cal1");
 
       // 選定酸之後做絕對值的比較
-      if (selected) {
+      // 非空物件才進行
+      if (!_.isEmpty(selected)) {
+        console.log("in selected");
+        let { ka1, ka2, ka3, ka1_text, ka2_text, ka3_text = "" } = selected;
+
+        //輸入欄位的數字是string要轉整數
+        let ph_value = parseInt(this.ph_value);
+        let logka1 = Math.log10(ka1);
+        let logka2 = Math.log10(ka2);
+        let logka3 = Math.log10(ka3);
+
+        let logkas = [logka1, logka2, logka3];
+        // 調整過大或過小的數字(>14或<1)
+        for (let i = 0; i < logkas.length; i++) {
+          if (logkas < 1) {
+            logkas = 1;
+          }
+          if (logkas > 14) {
+            lokas = 14;
+          }
+        }
+
         let result1 = Math.abs(logka1 + ph_value);
         let result2 = Math.abs(logka2 + ph_value);
         let result3 = Math.abs(logka3 + ph_value);
@@ -118,7 +124,8 @@ var app = new Vue({
           }
 
           console.log(`cal1 min abs:${min}`);
-          console.log(`緩衝嚴:${this.ka_text}`);
+          console.log(`緩衝鹽:${this.ka_text}`);
+
           this.abs = min;
           return this.ka_text;
         } else {
