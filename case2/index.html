@@ -1,83 +1,71 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>化學計算-case2</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-      crossorigin="anonymous"
-    />
-    <!-- underscore -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-    <!-- math -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
-      async
-    ></script>
-    <!-- jquery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- fontawesome -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-      crossorigin="anonymous"
-    />
-    <!-- 共用 css -->
-    <link rel="stylesheet" href="../style.css" />
-    <!-- 自用  css -->
-    <link rel="stylesheet" href="style.css" />
-  </head>
 
-  <body>
-    <div id="app">
-      <h1>Case2</h1>
-      <div class="question">
-        <p>使用情境說明文字：</p>
-        <p>1.選擇一種酸多質子</p>
-        <select v-model="selectedAcid">
-          <option disabled>請選擇</option>
-          <option v-for="(acid,index) in acids" :value="acid">{{
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>化學計算-case2</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+  <!-- underscore -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+  <!-- math -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
+  <!-- jquery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+  <!-- 共用 css -->
+  <link rel="stylesheet" href="../style.css" />
+  <!-- 自用  css -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <h1>配製緩衝鹽溶液</h1>
+    <div class="question">
+      <p>在生化的實驗裡面，或在染料的調整，還是在藥品、化妝品溶液的配方當中，選用與配製合適的緩衝鹽系統是一門很重要的學問，但是該如何選用適合的緩衝鹽系統？該配多少的濃度？或是如何利用弱酸與弱酸鹽的比例來決定呢？</p>
+      <p>1.選擇一種酸多質子</p>
+      <select v-model="selectedAcid">
+        <option disabled>請選擇</option>
+        <option v-for="(acid,index) in acids" :value="acid">{{
             acid.title
           }}</option>
-        </select>
-        <p>ka1: {{ selectedAcid.ka1 }}--{{ selectedAcid.ka1_text }}</p>
-        <p>ka2: {{ selectedAcid.ka2 }}--{{ selectedAcid.ka2_text }}</p>
-        <p>ka3: {{ selectedAcid.ka3 }}--{{ selectedAcid.ka3_text }}</p>
-        <p>
-          2.輸入想要的pH值(1~14之間)
-          <input type="number" min="1" max="14" v-model="ph_value" />
-        </p>
-        <p>abs(ph-ka1):{{ result1 }}</p>
-        <p>abs(ph-ka2):{{ result2 }}</p>
-        <p>abs(ph-ka3):{{ result3 ? result3 : "無資料" }}</p>
-        <p>
-          使用緩衝鹽：{{ cal1 }}<br />
-          調配比例:{{ cal2 }}
-        </p>
-      </div>
-      <a href="../index.html">回首頁</a>
+      </select>
+      <p>ka1: {{ selectedAcid.ka1 }}--{{ selectedAcid.ka1_text }}</p>
+      <p>ka2: {{ selectedAcid.ka2 }}--{{ selectedAcid.ka2_text }}</p>
+      <p>ka3: {{ selectedAcid.ka3 }}--{{ selectedAcid.ka3_text }}</p>
+      <hr>
+      <p>
+        2.輸入想要的pH值(1~14之間)
+        <input type="number" min="1" max="14" v-model="ph_value" />
+      </p>
+      <p>abs(ph-ka1):{{ result1 }}</p>
+      <p>abs(ph-ka2):{{ result2 }}</p>
+      <p>abs(ph-ka3):{{ result3 ? result3 : "無資料" }}</p>
+      <p>
+        使用緩衝鹽：
+        <span v-html="cal1"></span>
+        <br />
+        調配比例:{{ cal2 }}
+      </p>
     </div>
-    <script src="app.js"></script>
-  </body>
+    <a href="../index.html">回首頁</a>
+  </div>
+  <script src="app.js"></script>
+</body>
+
 </html>

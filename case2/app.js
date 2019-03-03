@@ -63,7 +63,24 @@ let data = {
 
 var app = new Vue({
   el: "#app",
-  data: data,
+  data,
+  methods: {
+    changeSub(text) {
+      // 將數字改為下標
+      let reg = /^[\d]+$/;
+      let sub = text
+        .split("")
+        .map(item => {
+          if (reg.test(item)) {
+            return "<sub>" + item + "</sub>";
+          } else {
+            return item;
+          }
+        })
+        .join("");
+      return sub;
+    }
+  },
   computed: {
     cal1() {
       let selected = this.selectedAcid;
@@ -127,18 +144,16 @@ var app = new Vue({
           console.log(`緩衝鹽:${this.ka_text}`);
 
           this.abs = min;
-          return this.ka_text;
+          return this.changeSub(this.ka_text);
         } else {
           // 只有ka1及ka2
           console.log("比較2個");
           if (result1 > result2) {
             this.abs = result2;
-            this.ka_text = ka2_text;
-            return this.ka_text;
+            return this.changeSub(ka2_text);
           } else {
             this.abs = result1;
-            this.ka_text = ka1_text;
-            return this.ka_text;
+            return this.changeSub(ka1_text);
           }
         }
       }
