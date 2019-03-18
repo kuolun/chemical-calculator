@@ -27,7 +27,8 @@ let data = {
   alka_concentration: 0,
   pH: 0,
   h1: 0,
-  h2: 0
+  h2: 0,
+  situation: ""
 };
 
 var app = new Vue({
@@ -67,6 +68,7 @@ var app = new Vue({
       // case1
       if (acid_compute > alka_compute) {
         console.log("case1");
+        this.situation = "case1";
         const e = acid_compute - alka_compute;
         pH = this.select1.pka + Math.log10(e / alka_compute);
       }
@@ -74,6 +76,7 @@ var app = new Vue({
       // case2
       if (acid_compute === alka_compute) {
         console.log("case2");
+        this.situation = "case2";
         const f = acid_compute;
         const g = f / (acid_vol + alka_vol);
         const kb = this.select2.kb || 0;
@@ -91,6 +94,7 @@ var app = new Vue({
 
       // case3
       if (acid_compute < alka_compute) {
+        this.situation = "case3";
         const i = alka_compute - acid_compute;
         const j = i / (acid_vol + alka_vol);
         pH = 14 + Math.log10(j);
