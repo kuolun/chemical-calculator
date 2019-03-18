@@ -25,7 +25,9 @@ let data = {
   ],
   alka_volume: 0,
   alka_concentration: 0,
-  pH: 0
+  pH: 0,
+  h1: 0,
+  h2: 0
 };
 
 var app = new Vue({
@@ -50,11 +52,17 @@ var app = new Vue({
   },
   computed: {
     result() {
-      const acid_compute = this.acid_volume * this.acid_concentration;
-      const alka_compute = this.alka_volume * this.alka_concentration;
+      const acid_vol = parseInt(this.acid_volume);
+      const acid_con = parseInt(this.acid_concentration);
+      const alka_vol = parseInt(this.alka_volume);
+      const alka_con = parseInt(this.alka_concentration);
+
+      const acid_compute = acid_vol * acid_con;
+      const alka_compute = alka_vol * alka_con;
+
+      console.log(`acid_compute:${acid_compute},alka_compute:${alka_compute}`);
 
       let pH = this.pH;
-      console.log(pH);
 
       // case1
       if (acid_compute > alka_compute) {
@@ -67,16 +75,16 @@ var app = new Vue({
       if (acid_compute === alka_compute) {
         console.log("case2");
         const f = acid_compute;
-        const g = f / (this.acid_volume + this.alka_volume);
-        const kb = this.select2.kb;
+        const g = f / (acid_vol + alka_vol);
+        const kb = this.select2.kb || 0;
 
         console.log(`f:${f},g:${g},kb:${kb}`);
 
-        const h1 = (-kb + Math.sqrt(Math.pow(kb, 2) + 4 * kb * g)) / 2;
-        const h2 = (-kb - Math.sqrt(Math.pow(kb, 2) + 4 * kb * g)) / 2;
-        console.log(`h1:${h1}`, `h2:${h2}`);
-        if (h1 > 0) {
-          pH = Math.log10(h1);
+        this.h1 = (-kb + Math.sqrt(Math.pow(kb, 2) + 4 * kb * g)) / 2;
+        this.h2 = (-kb - Math.sqrt(Math.pow(kb, 2) + 4 * kb * g)) / 2;
+        console.log(`h1:${this.h1}`, `h2:${this.h2}`);
+        if (this.h1 > 0) {
+          pH = Math.log10(this.h1);
         }
         // h2也>0??? 待確認
       }
@@ -84,7 +92,7 @@ var app = new Vue({
       // case3
       if (acid_compute < alka_compute) {
         const i = alka_compute - acid_compute;
-        const j = i / (acid_volume + alka_volume);
+        const j = i / (acid_vol + alka_vol);
         pH = 14 + Math.log10(j);
       }
 
