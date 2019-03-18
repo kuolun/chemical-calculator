@@ -1,67 +1,105 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>化學計算-酸鹼中和算pH</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <!-- underscore -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <!-- math -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+      async
+    ></script>
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <!-- 共用 css -->
+    <link rel="stylesheet" href="../style.css" />
+    <!-- 自用  css -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>化學計算-鹽類沈澱判斷</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
-  <!-- underscore -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-  <!-- math -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
-  <!-- jquery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!-- fontawesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
-  <!-- 共用 css -->
-  <link rel="stylesheet" href="../style.css" />
-  <!-- 自用  css -->
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <body>
+    <div id="app">
+      <h1>酸鹼中和算pH</h1>
+      <div class="question">
+        <p>使用情境說明文字：由下拉選單選擇元素後，看會溶解還是沈澱</p>
+        <p>1.選擇酸</p>
+        <select v-model="select1">
+          <option disabled>請選擇</option>
+          <option v-for="(el,index) in acids" :value="el">{{ el.name }}</option>
+        </select>
+        <hr />
+        <div>
+          <label for="concentration">濃度</label>
+          <input
+            type="number"
+            v-model="acid_concentration"
+            id="acid_concentration"
+            size="5"
+          />
 
-<body>
-  <div id="app">
-    <h1>鹽類沈澱判斷</h1>
-    <div class="question">
-      <p>使用情境說明文字：由下拉選單選擇元素後，看會溶解還是沈澱</p>
-      <p>1.選擇第1種元素</p>
-      <select v-model="selectel1">
-        <option disabled>請選擇</option>
-        <option v-for="(el,index) in elements1" :value="el">{{el.text}}</option>
-      </select>
+          <label for="volume">體積</label>
+          <input type="number" v-model="acid_volume" id="acid_volume" />
+          <span>ml</span>
+        </div>
+        <hr />
+        <p>2.選擇第2種元素</p>
+        <select v-model="select2">
+          <option disabled>請選擇</option>
+          <option v-for="(el,index) in alka" :value="el">{{ el.name }}</option>
+        </select>
+        <hr />
+        <div>
+          <label for="concentration">濃度</label>
+          <input
+            type="number"
+            v-model="alka_concentration"
+            id="alka_concentration"
+            size="5"
+          />
 
-      <p>2.選擇第2種元素</p>
-      <select v-model="selectel2">
-        <option disabled>請選擇</option>
-        <option v-for="(el,index) in elements2" :value="el">{{el.text}}</option>
-      </select>
+          <label for="volume">體積</label>
+          <input type="number" v-model="alka_volume" id="alka_volume" />
+          <span>ml</span>
+        </div>
 
-      <p>
-        結果：
-        <ul>
-          <li v-for="item in result">{{item.result}} <span v-if="item.down">沈澱</span>
-            <span v-else>溶解</span> </li>
-        </ul>
-      </p>
-
+        <p>
+          pH值計算結果為：<span>{{ result }}</span>
+        </p>
+      </div>
+      <a href="../index.html">回首頁</a>
     </div>
-    <a href="../index.html">回首頁</a>
-  </div>
-  <script src="app.js"></script>
-</body>
-
+    <script src="app.js"></script>
+  </body>
 </html>
