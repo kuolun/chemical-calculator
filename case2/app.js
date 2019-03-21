@@ -1,8 +1,68 @@
 let data = {
   acids: [
     {
+      title: "acetic acid",
+      ka1: 1.8 * Math.pow(10, -5),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "formic acid",
+      ka1: 1.7 * Math.pow(10, -4),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "nitrous acid",
+      ka1: 4.5 * Math.pow(10, -4),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "hydrofluoric acid",
+      ka1: 7.1 * Math.pow(10, -4),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "hydrogen sulfate ion",
+      ka1: 1.3 * Math.pow(10, -2),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "hydronium ion",
+      ka1: 1,
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "nitric acid",
+      ka1: Math.pow(10, 2),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "hydrochloric acid",
+      ka1: Math.pow(10, 6),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "hydrobromic acid",
+      ka1: Math.pow(10, 9),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
+      title: "hydroiodic acid",
+      ka1: Math.pow(10, 10),
+      ka1_text: "",
+      ka2_text: ""
+    },
+    {
       title: "sulfuric acid",
-      ka1: 1000,
+      ka1: Math.pow(10, 3),
       ka2: 0.011,
       ka1_text: "[HSO4-]/ [H2SO4]",
       ka2_text: "[SO42-]/ [HSO4-]"
