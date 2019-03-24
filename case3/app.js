@@ -118,10 +118,13 @@ var app = new Vue({
   },
   computed: {
     result() {
-      const acid_vol = parseInt(this.acid_volume);
-      const acid_con = parseInt(this.acid_concentration);
-      const alka_vol = parseInt(this.alka_volume);
-      const alka_con = parseInt(this.alka_concentration);
+      const acid_vol = parseFloat(this.acid_volume);
+      const acid_con = parseFloat(this.acid_concentration);
+      const alka_vol = parseFloat(this.alka_volume);
+      const alka_con = parseFloat(this.alka_concentration);
+
+      console.log('test');
+      console.log(acid_vol, acid_con, alka_vol, alka_con);
 
       const acid_compute = acid_vol * acid_con;
       const alka_compute = alka_vol * alka_con;
@@ -135,6 +138,9 @@ var app = new Vue({
         console.log("case1");
         this.situation = "case1";
         const e = acid_compute - alka_compute;
+        console.log(`e:${e}`)
+        console.log(`log:${Math.log10(e / alka_compute)}`)
+        console.log(`pka:${this.select1.pka}`)
         pH = this.select1.pka + Math.log10(e / alka_compute);
       }
 
