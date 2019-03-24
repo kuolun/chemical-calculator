@@ -7,77 +7,92 @@ let data = {
     {
       name: "HI(hydroiodic acid)",
       ka: Math.pow(10, 10),
-      pka: -10
+      pka: -10,
+      kb: Math.pow(10, -24)
     },
     {
       name: "HBr(hydrobromic acid)",
       ka: Math.pow(10, 9),
-      pka: -9
+      pka: -9,
+      kb: Math.pow(10, -23)
     },
     {
       name: "HCl(hydrochloric acid)",
       ka: Math.pow(10, 6),
-      pka: -6
+      pka: -6,
+      kb: Math.pow(10, -20)
     },
     {
       name: "H2SO4(sulfuric acid)",
       ka: Math.pow(10, 3),
-      pka: -3
+      pka: -3,
+      kb: Math.pow(10, -17)
     },
     {
       name: "HNO3(nitric acid)",
       ka: Math.pow(10, 2),
-      pka: -2
+      pka: -2,
+      kb: Math.pow(10, -15)
     },
     {
       name: "H3O+(hydronium acid)",
       ka: 1,
-      pka: 0
+      pka: 0,
+      kb: Math.pow(10, -14)
     },
     {
       name: "HSO4-(hydrogen sulfate ion)",
       ka: Math.pow(10, -2) * 1.3,
-      pka: 1.89
+      pka: 1.89,
+      kb: Math.pow(10, -13) * 7.7
     },
     {
       name: "HF(hydrofluoric acid)",
       ka: Math.pow(10, -4) * 7.1,
-      pka: 3.15
+      pka: 3.15,
+      kb: Math.pow(10, -11) * 1.4
     },
     {
       name: "HNO2(nitrous acid)",
       ka: Math.pow(10, -4) * 4.5,
-      pka: 3.35
+      pka: 3.35,
+      kb: Math.pow(10, -11) * 2.2
     },
     {
       name: "HCOOH(formic acid)",
       ka: Math.pow(10, -4) * 1.7,
-      pka: 3.77
+      pka: 3.77,
+      kb: Math.pow(10, -11) * 5.9
     },
     {
       name: "CH3COOH(acetic acid)",
       ka: Math.pow(10, -5) * 1.8,
-      pka: 4.74
+      pka: 4.74,
+      kb: Math.pow(10, -10) * 5.6
     },
     {
       name: "NH4+(ammonium ion)",
       ka: Math.pow(10, -10) * 5.6,
-      pka: 9.25
+      pka: 9.25,
+      kb: Math.pow(10, -5) * 1.8
     },
     {
       name: "HCN(hydrocyanic acid)",
       ka: Math.pow(10, -10) * 4.9,
-      pka: 9.31
+      pka: 9.31,
+      kb: Math.pow(10, -5) * 2
     },
     {
       name: "H2O(water)",
       ka: Math.pow(10, -14),
-      pka: 14
+      pka: 14,
+      kb: 1
     },
     {
       name: "NH3(ammonia)",
       ka: Math.pow(10, -34),
-      pka: 34
+      pka: 34,
+      kb: Math.pow(10, 20)
     }
   ],
   // 鹼
@@ -141,7 +156,7 @@ var app = new Vue({
         console.log(`e:${e}`)
         console.log(`log:${Math.log10(e / alka_compute)}`)
         console.log(`pka:${this.select1.pka}`)
-        pH = this.select1.pka + Math.log10(e / alka_compute);
+        pH = this.select1.pka + Math.log10(alka_compute / e);
       }
 
       // case2
@@ -150,17 +165,22 @@ var app = new Vue({
         this.situation = "case2";
         const f = acid_compute;
         const g = f / (acid_vol + alka_vol);
-        const kb = this.select2.kb || 0;
+        const kb = this.select1.kb || 0;
 
         console.log(`f:${f},g:${g},kb:${kb}`);
+
 
         this.h1 = (-kb + Math.sqrt(Math.pow(kb, 2) + 4 * kb * g)) / 2;
         this.h2 = (-kb - Math.sqrt(Math.pow(kb, 2) + 4 * kb * g)) / 2;
         console.log(`h1:${this.h1}`, `h2:${this.h2}`);
-        if (this.h1 > 0) {
-          pH = Math.log10(this.h1);
-        }
-        // h2也>0??? 待確認
+
+        const h = (this.h1 > 0) ? this.h1 : this.h2;
+
+        console.log(`h:${h}`);
+
+        pH = Math.log10(h) + 14;
+
+        console.log(pH)
       }
 
       // case3
